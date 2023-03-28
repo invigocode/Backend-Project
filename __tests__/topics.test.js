@@ -30,6 +30,23 @@ describe("/api/topics", () => {
         expect(Object.keys(body)[0]).toBe("topics");
       });
   });
+  test("GET 200: responds with an array of objects", () => {
+    return supertest(app)
+      .get("/api/topics")
+      .expect(200)
+      .then((response) => {
+        const topics = response.body.topics;
+        expect(topics.length).toBe(3);
+        expect(topics[0]).toEqual({
+          description: "The man, the Mitch, the legend",
+          slug: "mitch",
+        });
+        expect(topics[2]).toEqual({
+          description: "what books are made of",
+          slug: "paper",
+        });
+      });
+  });
   test("GET 404: responds with 404 if request has a typo", () => {
     return supertest(app)
       .get("/api/typo")
@@ -39,24 +56,3 @@ describe("/api/topics", () => {
       });
   });
 });
-
-// describe("/api/topics", () => {
-//   it("GET 200: responds with an array of objects", () => {
-//     return supertest(app)
-//       .get("/api/topics")
-//       .expect(200)
-//       .then((response) => {
-//         const topics = response.body.topics;
-//         // console.log(response.body) // this is now an Obj with a key of topics with an array of objects
-//         expect(topics.length).toBe(3);
-//         expect(topics[0]).toEqual({
-//           description: "The man, the Mitch, the legend",
-//           slug: "mitch",
-//         });
-//         expect(topics[2]).toEqual({
-//           description: "what books are made of",
-//           slug: "paper",
-//         });
-//       });
-//   });
-// });
